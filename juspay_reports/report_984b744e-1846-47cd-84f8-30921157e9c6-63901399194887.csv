@@ -1,0 +1,3 @@
+"total_volume","success_rate","is_txn_conflicted","card_issuer_country","priority_logic_tag","udf6","txn_latency_enum","payment_method_type"
+1,0,"MATCH",NA,"tesvolbasedplc",NA,"3M-4M","UPI"
+2,0,"MATCH","UNITED STATES OF AMERICA","swedc",NA,"3M-4M","CARD"

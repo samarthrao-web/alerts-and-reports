@@ -1,0 +1,27 @@
+use case of SFTP used in reports :
+
+when will reports get generated 
+
+
+API :
+/reporting * -> new (RUST -> producer , Julia -> Consumer )
+/api/monitoring/* -> old ( Julia -> producer , Julia -> Consume )
+
+PLAN :
+
+get old api -> hit the curl -> [different combination] -> [schedule the time] -> send email ->
+[here somehow i need to get the report from the email or other place where it stores] -> retrive the values.
+
+same for new
+
+Compare both the reports, Here i want to create some script of job ,which will look at the email for report
+automatically, and get the diff outputs
+
+
+TO DO : 
+
+getting the weblogin token ()
+Getting the reports from email ()
+
+
+
