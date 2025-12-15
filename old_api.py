@@ -49,6 +49,7 @@ def create_monitoring_task(dimensions_list, dim_name):
         "metrics": ["success_rate"],
         "merchantId": "chetan_test",
         "task_channel": ["mail"],
+        "output_format": "csv",
         "task_name": "testingchange1",
         "task_description": "testing",
         "mail": ["samarth.rao@juspay.in"],
