@@ -50,10 +50,10 @@ def create_monitoring_task(dimensions_list, dim_name):
         "merchantId": "chetan_test",
         "task_channel": ["mail"],
         "output_format": "csv",
-        "task_name": "testingchange1",
+        "task_name": "testing old api 1",
         "task_description": "testing",
         "mail": ["samarth.rao@juspay.in"],
-        "schedule_time": "12:15",
+        "schedule_time": "02:10",
         "schedule_day_date": "",
         "timezone_offset": 330,
         "timezone_region": "Asia/Kolkata"

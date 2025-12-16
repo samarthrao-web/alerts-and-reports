@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" class="notranslate" translate="no">
+
+  <head>
+    <title></title>
+    <meta name="viewport"
+      content="width=device-width, initial-scale=1.0 maximum-scale=1.0, interactive-widget=resizes-content" />
+
+    <meta name="google" content="notranslate" />
+    <meta name="referrer" content="origin" />
+  <link rel="shortcut icon" type="image/x-icon" href="" />
+    <link rel="manifest" href="/manifest.json">
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;600;700;800&display=swap"
+      rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Updock&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Square+Peg&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/arta.min.css" />
+    <script>
+    (function () {
+      // Check if the viewport is mobile (max-width 774px)
+      if (window.innerWidth <= 774) {
+        var svgUrls = [
+          "/icons/login_screen_mobile.svg",
+          "/icons/forgot_screen_mobile.svg",
+          "/icons/reset_screen_mobile.svg",
+          "/icons/2FA_screen_mobile.svg",
+        ];
+        svgUrls.forEach(function (url) {
+          var link = document.createElement("link");
+          link.rel = "preload";
+          link.href = url;
+          link.as = "image";
+          document.head.appendChild(link);
+        });
+      }
+    })();
+  </script>
+    <script type="text/javascript">
+    if (window.location.hostname.includes("dms.gbm.hsbc.com") || window.location.hostname.includes("dashboard.hdfcbank.juspay.in") || 
+      window.location.hostname.includes("dashboard.hdfcbank.sandbox.juspay.in")) {
+      document.head.insertAdjacentHTML(
+        "beforeEnd",
+        '<meta name="robots" content="noindex, nofollow">'
+        
+      );
+    } else if (window.location.hostname.includes("juspay.in") || 
+           window.location.hostname.includes("juspay.io")) {
+    document.title = "Juspay Merchant Dashboard";
+  }
+
+  </script>
+
+    <style>
+    html,
+    body {
+      /* font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+          "Segoe UI Symbol"; */
+      font-family: "Source Sans Pro";
+      font-weight: 400;
+      font-size: 14px;
+      -webkit-font-smoothing: antialiased;
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    @media (min-width: 0px) and (max-width: 319px),
+    (min-width: 320px) and (max-width: 379px),
+    (min-width: 380px) and (max-width: 774px) {
+      html {
+        font-size: 12px;
+      }
+    }
+
+    @media (min-width: 775px) and (max-width: 992px),
+    (min-width: 993px) and (max-width: 1200px),
+    (min-width: 1201px) and (max-width: 1366px),
+    (min-width: 1367px) and (max-width: 1440px),
+    (min-width: 1441px) and (max-width: 1559px) {
+      html {
+        font-size: 14px;
+      }
+    }
+
+    @media (min-width: 1560px) and (max-width: 2560px),
+    (min-width: 1921px) and (max-width: 2560px),
+    (min-width: 2561px) and (max-width: 3840px),
+    (min-width: 3841px) {
+      html {
+        font-size: 16px;
+      }
+    }
+
+    #app {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .list-item {
+      background-color: rgba(255, 255, 255, 1);
+      padding: 10px;
+      transition: background-color 0.2s;
+    }
+
+    .html2canvas-container {
+      width: 1800px;
+      height: 3000px;
+    }
+
+    .list-item:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .clickable {
+      cursor: pointer;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      body {
+        color: rgba(229, 231, 235, 1);
+      }
+    }
+  </style>
+  </head>
+
+<body onload="FreshworksWidget('hide', 'launcher');">
+  <script>
+   window.fwSettings = {
+    'widget_id': 1130000000129,
+    'locale': 'en',
+   };
+   !function() {
+    if ("function" != typeof window.FreshworksWidget) {
+     var n = function() { n.q.push(arguments) };
+     n.q = [], window.FreshworksWidget = n;
+    }
+   }()
+  </script>
+  <div id="app"></div>
+  <script>
+    var GOOGLESSOKEY = "339745838834-6hfksabufdb2sckh01g1uotnpme9ht48.apps.googleusercontent.com";
+    var APPIDLESESSIONTIMEOUT = "21600";
+    var MICROSOFTSSOKEY = "b07df2bf-afd7-46ae-a509-7445c013406b";
+    var WEBVIEWLISTENERKEY = "a2a231bd926bcac179c28273a795feb8"
+    var MERCHANTPRODMIXPANELKEY = "dbdc8d7568640a9bd3e0cce5525d0f5d";
+    var apiServer = "/*infra-BACKEND_ENDPOINT*/";
+    var publicKey = "";
+    var kid = "";
+    var adminHost = `/*ADMIN_HOST*/`;
+    var hostListAP = `/*HOST_LIST*/`;
+    var appEnv = "sandbox";
+    var dashboardAppStack = `/*DASHBOARD_STACK*/`;
+  </script>
+    <script src="/app.js"></script>
+  </body>
+
+</html>

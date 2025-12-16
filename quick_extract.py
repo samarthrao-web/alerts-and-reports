@@ -13,7 +13,7 @@ EMAIL_PASSWORD = "jpycuyqbeetegwxy"  # <-- REQUIRED: Replace with your 16-charac
 SUBJECT_KEYWORD = "testingchange1"
 
 # Directory where reports will be saved (relative to where you run the script)
-DOWNLOAD_DIR_NAME = "downloaded_reports"
+DOWNLOAD_DIR_NAME = "juspay_reports"
 DOWNLOAD_PATH = os.path.join(os.getcwd(), DOWNLOAD_DIR_NAME) # Uses current working directory
 
 def search_and_download_report():
@@ -32,9 +32,9 @@ def search_and_download_report():
         # 2. Select the INBOX
         mail.select("inbox")
         
-        # 3. Search for UNSEEN emails with the specific subject
-        # Change UNSEEN to ALL if you want to process emails you've already seen
-        search_criteria = f'(UNSEEN SUBJECT "{SUBJECT_KEYWORD}")'
+        # 3. Search for ALL emails with the specific subject (including already read ones)
+        # Change ALL to UNSEEN if you want to process only unread emails
+        search_criteria = f'(TEXT "{SUBJECT_KEYWORD}")'
         status, messages = mail.search(None, search_criteria)
         
         if status != "OK":
@@ -72,6 +72,32 @@ def search_and_download_report():
         print(f"Subject: {subject}")
         print(f"From: {from_email}")
         print(f"{'-'*70}")
+
+        # Extract email body to find download links
+        email_body_text = ""
+        if email_message.is_multipart():
+            for part in email_message.walk():
+                if part.get_content_type() == "text/plain":
+                    email_body_text = part.get_payload(decode=True).decode()
+                elif part.get_content_type() == "text/html":
+                    email_body_text = part.get_payload(decode=True).decode()
+        else:
+            email_body_text = email_message.get_payload(decode=True).decode()
+        
+        print(f"\n📄 EMAIL BODY (Full):")
+        print(f"{'='*70}")
+        print(email_body_text)  # Print complete email body
+        print(f"{'='*70}\n")
+        
+        # Extract download links from HTML
+        import re
+        download_links = re.findall(r'href=["\']([^"\'>]+)["\']', email_body_text)
+        if download_links:
+            print(f"\n🔗 FOUND DOWNLOAD LINKS:")
+            for idx, link in enumerate(download_links, 1):
+                if 'http' in link or 'download' in link.lower():
+                    print(f"{idx}. {link}")
+            print(f"{'='*70}\n")
 
         attachment_found = False
         if email_message.is_multipart():
