@@ -26,7 +26,7 @@ def create_monitoring_task(dimensions_list, dim_name):
         'x-device-type': 'web',
         'x-feature': 'canary',
         'x-tenant-id': 'jt_29bd8266cbdc4e76938cfaa2d80db4d6',
-        'x-web-logintoken': '5ef591176df420c9635788684125ec'    # this has to be done dynamic , Merchant token 
+        'x-web-logintoken': '94d786ba8ec4011b696a0cd0dbd162'    # this has to be done dynamic , Merchant token 
     }
 
     cookies = {
@@ -53,7 +53,7 @@ def create_monitoring_task(dimensions_list, dim_name):
         "task_name": "testing old api 1",
         "task_description": "testing",
         "mail": ["samarth.rao@juspay.in"],
-        "schedule_time": "02:10",
+        "schedule_time": "09:50",
         "schedule_day_date": "",
         "timezone_offset": 330,
         "timezone_region": "Asia/Kolkata"

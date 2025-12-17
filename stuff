@@ -25,3 +25,8 @@ Getting the reports from email ()
 
 
 
+You are right to point out that if your remote PC is already running 24/7, a continuous Python daemon is a much more efficient and immediate solution than relying on a Cron job that only checks every few minutes.
+
+A daemon (using Systemd) allows your queue worker to instantly process emails as soon as they arrive, rather than waiting for the next Cron interval. It also keeps your queue list loaded in memory, avoiding constant file I/O.
+
+Here is the revised, recommended solution using a Systemd Daemon for continuous operation, along with the persistent JSON queue for state management.

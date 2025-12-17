@@ -11,7 +11,7 @@ IMAP_SERVER = "imap.gmail.com"
 IMAP_PORT = 993
 EMAIL_ACCOUNT = "samarth.rao@juspay.in"
 EMAIL_PASSWORD = "jpycuyqbeetegwxy"
-SUBJECT_KEYWORD = "oldapi4"  # Change this to your email title
+SUBJECT_KEYWORD = "Admin_old_api_1"  # Change this to your email title
 DOWNLOAD_DIR = "juspay_reports"
 REPORT_PASSWORD = "juspay"  # Password for the report
 
