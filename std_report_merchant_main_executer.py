@@ -9,14 +9,15 @@ REPORTS_TO_EXECUTE = [
     {
         "task_name": "ALT ID Provisioning Success Report",
         "task_description": "Provides consolidated summary of successful ALT_ID provisioning requests across sub-merchants, card networks.",
-        "mail": ["samarth.rao@juspay.in"],
+        "mail": ["samarth.rao@juspay.in", "rahul.jagdhane@juspay.in"],
         "standard_report_type": "ALTID_PROVISION_SR"
     },
     {
         "task_name": "Offer Benefit Report",
         "task_description": "This report provides details of every offer applied during a transaction attempt, with each offer detail listed in a separate row.",
         "mail": [
-            "samarth.rao@juspay.in"
+            "samarth.rao@juspay.in",
+            "rahul.jagdhane@juspay.in"
         ],
         "standard_report_type": "OFFER_BENEFIT"
     },
