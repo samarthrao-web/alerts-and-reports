@@ -24,7 +24,7 @@ COMMON_HEADERS = {
     'x-device-type': 'web',
     'x-feature': 'canary',
     'x-tenant-id': 'jt_29bd8266cbdc4e76938cfaa2d80db4d6',
-    'x-web-logintoken': '228315e665946d6944ed5bcc81daae'    # Merchant token 
+    'x-web-logintoken': '1a1a5177e93470b8a385cc1f44f3ba'    # Merchant token 
 }
 
 COMMON_COOKIES = {

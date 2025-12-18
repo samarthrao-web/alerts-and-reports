@@ -10,10 +10,16 @@ transaction_dim2 = [
   "Auth Type",
   "Udf8"
 ]
+transaction_dim3 = [ 
+  "payment_method_type",
+  "Auth Type",
+  "Udf8"
+]
 
 # List of all dimension sets to iterate through
 # Format: (dimension_list, descriptive_name)
 ALL_DIMENSION_SETS = [
     (transaction_dim1, "transaction_dim1"),
     (transaction_dim2, "transaction_dim2"),
+    (transaction_dim3, "transaction_dim3"),
 ]
