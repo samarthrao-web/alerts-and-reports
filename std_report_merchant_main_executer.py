@@ -7,18 +7,30 @@ NEW_API_URL = 'https://sandbox.portal.juspay.in/reporting/task'
 
 REPORTS_TO_EXECUTE = [
     {
-        "task_name": "19 9 40 ALT ID Provisioning Success Report",
-        "task_description": "Provides consolidated summary of successful ALT_ID provisioning requests.",
-        "mail": ["samarth.rao@juspay.in"],
-        "standard_report_type": "ALTID_PROVISION_SR"
-    },
-    {
         "task_name": "19 9 40 Transaction Refund Report",
         "task_description": "Comprehensive report representing previous day transactions and refunds data.",
         "mail": ["samarth.rao@juspay.in",
                  "rahul.jagdhane@juspay.in"],
         "standard_report_type": "TXN_REFUND"
-    }
+    },
+    {
+        "task_name": "New Orders Report",
+        "task_description": "This report provides details of orders with status as NEW. This is the status if order is created but transaction is not attempted on it",
+        "mail": [
+            "samarth.rao@juspay.in"
+        ],
+        "standard_report_type": "NEW_ORDERS"
+    },
+    {
+        "task_name": "Payout Fulfillment Txn Report",
+        "task_description": "A payout fulfillment report is a document or summary that provides information about various financial transactions or payments made by an organization to individuals, vendors, employees, or other entities.",
+        "mail": [
+            "samarth.rao@juspay.in"
+        ],
+        "standard_report_type": "PAYOUT_FULFILLMENT"
+    },
+
+
 ]
 
 monitoring_task_queue = []
