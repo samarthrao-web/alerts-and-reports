@@ -1,7 +1,7 @@
-# api_handler.py
 import requests
 import json
 
+# Headers and Cookies remain as per your latest working Sandbox curl
 COMMON_HEADERS = {
     'accept': '*/*',
     'accept-language': 'en-US,en;q=0.9',
@@ -9,6 +9,7 @@ COMMON_HEADERS = {
     'content-type': 'application/json',
     'origin': 'https://sandbox.portal.juspay.in',
     'pragma': 'no-cache',
+    'priority': 'u=1, i',
     'referer': 'https://sandbox.portal.juspay.in/',
     'sec-ch-ua': '"Google Chrome";v="143", "Chromium";v="143", "Not A(Brand";v="24"',
     'sec-ch-ua-mobile': '?0',
@@ -20,40 +21,32 @@ COMMON_HEADERS = {
     'x-device-type': 'web',
     'x-feature': 'canary',
     'x-tenant-id': 'jt_29bd8266cbdc4e76938cfaa2d80db4d6',
-    'x-web-logintoken': '7a7e3fdfc8543b8bf7faf4cdedd16b'
+    'x-web-logintoken': '85c1197ebda48678d85257ab09a008'
 }
 
 COMMON_COOKIES = {
     '_hjSessionUser_3095187': 'eyJpZCI6ImY1MjU3ZDU3LTk1MTktNTFlOS04MDVlLTMzNGZhNzljODI0ZSIsImNyZWF0ZWQiOjE3NTMxNjc3MTM0MTIsImV4aXN0aW5nIjp0cnVlfQ==',
-    '_hjSessionUser_5094217': 'eyJpZCI6IjU0MGIyYjM5LTAyMTMtNTY3Yy04MWY2LWI4ZDcxMjUyZTkxNCIsImNyZWF0ZWQiOjE3NTQ0Njg2MDc1MzcsImV4aXN0aW5nIjp0cnVlfQ==',
-    '_hjSessionUser_3119518': 'eyJpZCI6Ijk5ZGYwZDRlLTQ3MjktNTU4ZS05NmZiLTI4YWZlYmYzNzNkNyIsImNyZWF0ZWQiOjE3NTQ0Njg2MDc4NDQsImV4aXN0aW5nIjp0cnVlfQ==',
-    'mp_d1ddfec6b54b8f1475df460831368898_mixpanel': '%7B%22distinct_id%22%3A%20%2219888a01c20279c-0a31f6359f1dbd-17525636-1d73c0-19888a01c213c2c%22%2C%22%24device_id%22%3A%20%2219888a01c20279c-0a31f6359f1dbd-17525636-1d73c0-19888a01c213c2c%22%2C%22%24initial_referrer%22%3A%20%22https%3A%2F%2Fportal.juspay.in%2F%22%2C%22%24initial_referring_domain%22%3A%20%22portal.juspay.in%22%7D',
     '_clck': '1szir1k%5E2%5Eg1o%5E0%5E2029',
-    'mp_efd8be2f877ffef30849e90a2ad99b37_mixpanel': '%7B%22distinct_id%22%3A%20%2219831e2697a2c28-028816eb8725d88-17525636-1d73c0-19831e2697b3b34%22%2C%22%24device_id%22%3A%20%2219831e2697a2c28-028816eb8725d88-17525636-1d73c0-19831e2697b3b34%22%2C%22%24initial_referrer%22%3A%20%22https%3A%2F%2Fsandbox.portal.juspay.in%2F%22%2C%22%24initial_referring_domain%22%3A%20%22sandbox.portal.juspay.in%22%7D',
-    '_hjSession_3095187': 'eyJpZCI6IjYxNTVjZDBhLWE3ODMtNDBmZC04ZDUwLTJhZmE3MWVhODZiNyIsImMiOjE3NjYwMzAzOTUxMjksInMiOjEsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0=',
-    'g_state': '{"i_l":0,"i_ll":1766035090629,"i_b":"Hr4LQfBRtlxeAz4pYpz7Ah12+5DAxfHP5p4aCBQaoWs","i_e":{"enable_itp_optimization":0}}'
+    'g_state': '{"i_l":0,"i_ll":1766052667133,"i_b":"fJTyR3EaQaiO/we3R/NGhCPpheOqCpfoZF7PaeVaEZ0","i_e":{"enable_itp_optimization":0}}',
+    '_hjSession_3095187': 'eyJpZCI6Ijg5NzUzYWY1LTJmZDgtNDVlZi04ZGMyLTViOWU0YmM3OTFkMyIsImMiOjE3NjYwNTA5MDg4NDUsInMiOjEsInIiOjAsInNiIjowLCJzciI6MCwic2UiOjAsImZzIjowLCJzcCI6MH0='
 }
 
 
 def create_monitoring_task(url, report_config):
     """
-    Sets the task name based on the API URL and executes the request.
+    Executes request and returns a dictionary of data extracted from response.
     """
-    # Logic to add suffix based on URL
-    if "reporting/task" in url:
-        suffix = "NEW"
-    else:
-        suffix = "OLD"
+    suffix = "NEW" if "reporting/task" in url else "OLD"
+    final_task_name = f"{report_config['task_name']} {suffix}"
 
     payload = {
         "task_type": "report",
         "user": "chetan_test_samarth_rao",
         "task_channel": ["mail"],
-        # Dynamics suffix added here
-        "task_name": f"{report_config['task_name']} {suffix}",
+        "task_name": final_task_name,
         "task_description": report_config['task_description'],
         "mail": report_config['mail'],
-        "start_timestamp": "2025-07-01T18:30:00.000Z",
+        "start_timestamp": "2025-08-01T18:30:00.000Z",
         "end_timestamp": "2025-12-02T18:29:59.000Z",
         "timezone_offset": 330,
         "timezone_region": "Asia/Kolkata",
@@ -61,28 +54,21 @@ def create_monitoring_task(url, report_config):
         "standard_report_type": report_config['standard_report_type']
     }
 
-    print(f"\n🚀 PREPARING REQUEST: {payload['task_name']}")
-    print(f"📦 URL: {url}")
-
     try:
         response = requests.post(
-            url,
-            headers=COMMON_HEADERS,
-            cookies=COMMON_COOKIES,
-            data=json.dumps(payload),
-            timeout=30
-        )
+            url, headers=COMMON_HEADERS, cookies=COMMON_COOKIES, data=json.dumps(payload), timeout=30)
 
         if response.status_code == 200:
-            data = response.json()
-            job_id = data.get('job_id') or data.get('task_id')
-            print(f"✅ Success! Job ID: {job_id}")
-            return response.headers.get('x-response-id'), job_id
+            resp_data = response.json()
+            print(f"✅ Success! {final_task_name}")
+            return {
+                "task_name": final_task_name,
+                "job_id": resp_data.get('job_id'),
+                "task_id": resp_data.get('task_uid')  # task_uid
+            }
         else:
-            print(f"❌ Failed! Status: {response.status_code}")
-            print(f"Error: {response.text}")
-            return None, None
-
+            print(f"❌ Failed: {response.status_code}")
+            return None
     except Exception as e:
-        print(f"❌ Exception: {e}")
-        return None, None
+        print(f"❌ Error: {e}")
+        return None

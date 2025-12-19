@@ -1,12 +1,18 @@
 [
     {
-        "task_name": "ALT ID Provisioning Success Report",
-        "old_job_id": "646352b9-99b8-4c73-9018-7f3d858d4c3d",
-        "new_job_id": "646352bb-3187-fb25-9800-d3315d329491"
+        "task_name_old": "19 9 40 ALT ID Provisioning Success Report OLD",
+        "task_uid_old": "report63901800603578",
+        "job_id_old": "64646407-9172-0eae-bb9e-64971845e22c",
+        "task_name_new": "19 9 40 ALT ID Provisioning Success Report NEW",
+        "task_uid_new": "report1766117404031",
+        "job_id_new": "64646408-0d11-4edd-afb1-d9972cfb2226"
     },
     {
-        "task_name": "Offer Benefit Report",
-        "old_job_id": "646352bb-d88b-0ced-ba13-6e5851cf6a64",
-        "new_job_id": "646352bc-a0c8-f557-8e58-b73b28ba184b"
+        "task_name_old": "19 9 40 Transaction Refund Report OLD",
+        "task_uid_old": "report63901800604564",
+        "job_id_old": "64646408-8214-0b94-b6a2-30ebfc4894da",
+        "task_name_new": "19 9 40 Transaction Refund Report NEW",
+        "task_uid_new": "report1766117405027",
+        "job_id_new": "64646408-fea9-b109-9368-d0a91504707d"
     }
 ]
