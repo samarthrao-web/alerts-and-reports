@@ -29,8 +29,6 @@ REPORTS_TO_EXECUTE = [
         ],
         "standard_report_type": "PAYOUT_FULFILLMENT"
     },
-
-
 ]
 
 monitoring_task_queue = []
