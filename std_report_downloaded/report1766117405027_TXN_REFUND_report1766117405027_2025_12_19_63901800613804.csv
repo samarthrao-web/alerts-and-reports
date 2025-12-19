@@ -1,0 +1,1 @@
+date_created,merchant_id,txn_id,customer_phone,customer_id,order_id,status,gateway,amount,payment_instrument_group,refund_amount,refunded_entirely,card_issuer_bank_name,txn_uuid

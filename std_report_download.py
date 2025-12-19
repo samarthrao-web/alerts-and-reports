@@ -1,6 +1,7 @@
 import json
 import imaplib
 import email
+from email.header import decode_header
 import os
 from datetime import datetime
 
@@ -12,52 +13,54 @@ QUEUE_FILE = 'job_queue.json'
 SUCCESS_FILE = 'success.json'
 DOWNLOAD_FOLDER = 'std_report_downloaded'
 
-# Ensure download folder exists
 if not os.path.exists(DOWNLOAD_FOLDER):
     os.makedirs(DOWNLOAD_FOLDER)
 
 
-def download_attachment(mail_instance, subject_to_find, task_uid):
-    """
-    Searches for email, checks body for task_uid, and downloads attachment.
-    """
+def check_subject_exists(mail_instance, subject_to_find):
+    """Step 1: Quick check if any email exists with this subject."""
     try:
-        search_query = f'SUBJECT "{subject_to_find}"'
-        status, messages = mail_instance.search(None, search_query)
+        mail_instance.select("inbox")
+        search_query = f'(SUBJECT "{subject_to_find}")'
+        status, search_data = mail_instance.search(None, search_query)
+        email_ids = search_data[0].split()
+        return email_ids if status == 'OK' and email_ids else []
+    except Exception:
+        return []
 
-        if status != 'OK' or not messages[0]:
-            return False
 
-        for num in messages[0].split():
-            status, data = mail_instance.fetch(num, '(RFC822)')
+def verify_uid_and_download(mail_instance, email_ids, task_uid):
+    """Step 2: Only runs if subjects were found. Verifies UID and downloads."""
+    try:
+        # Check the most recent emails matching the subject first
+        for msg_id in reversed(email_ids):
+            status, data = mail_instance.fetch(msg_id, '(RFC822)')
             raw_email = data[0][1]
             msg = email.message_from_bytes(raw_email)
 
+            # Extract body to check for UID
             email_body = ""
-            if msg.is_multipart():
-                for part in msg.walk():
-                    if part.get_content_type() == "text/plain":
-                        payload = part.get_payload(decode=True)
-                        if payload:
-                            email_body += payload.decode(errors='ignore')
-            else:
-                payload = msg.get_payload(decode=True)
-                if payload:
-                    email_body = payload.decode(errors='ignore')
+            for part in msg.walk():
+                if part.get_content_type() == "text/plain":
+                    payload = part.get_payload(decode=True)
+                    if payload:
+                        email_body += payload.decode(errors='ignore')
 
-            # Check if task_uid is in the email body
-            if task_uid in email_body:
-                for part in msg.walk():
-                    if part.get_content_disposition() == 'attachment':
-                        filename = part.get_filename()
-                        if filename:
-                            save_path = os.path.join(
-                                DOWNLOAD_FOLDER, f"{task_uid}_{filename}")
-                            with open(save_path, 'wb') as f:
-                                f.write(part.get_payload(decode=True))
-                            return True
+            uid_in_body = task_uid in email_body
+
+            # Check attachments
+            for part in msg.walk():
+                if part.get_content_disposition() == 'attachment':
+                    filename = part.get_filename()
+                    # Match if UID is in filename OR body
+                    if filename and (task_uid in filename or uid_in_body):
+                        save_path = os.path.join(
+                            DOWNLOAD_FOLDER, f"{task_uid}_{filename}")
+                        with open(save_path, 'wb') as f:
+                            f.write(part.get_payload(decode=True))
+                        return True
         return False
-    except Exception as e:
+    except Exception:
         return False
 
 
@@ -65,47 +68,52 @@ def process_full_queue():
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     if not os.path.exists(QUEUE_FILE):
-        print(f"[{timestamp}] ⚠️ File job_queue.json not found.")
         return
 
     with open(QUEUE_FILE, 'r') as f:
         queue = json.load(f)
 
     if not queue:
-        print(f"[{timestamp}] ℹ️ Queue is empty. Nothing to process.")
+        print(f"[{timestamp}] ℹ️ Queue is empty.")
         return
 
     still_pending = []
     new_successes = []
 
-    print(f"\n[{timestamp}] --- Cron Run Started: Checking {len(queue)} pairs ---")
+    print(f"[{timestamp}] --- Cron Run Started ---")
 
     try:
         mail = imaplib.IMAP4_SSL(IMAP_SERVER)
         mail.login(EMAIL_USER, EMAIL_PASS)
-        mail.select("inbox")
 
         for task in queue:
-            name_old = task['task_name_old']
-            uid_old = task['task_uid_old']
-            name_new = task['task_name_new']
-            uid_new = task['task_uid_new']
+            name_old = task.get('task_name_old')
+            uid_old = task.get('task_uid_old')
+            name_new = task.get('task_name_new')
+            uid_new = task.get('task_uid_new')
 
-            # Attempt downloads
-            old_res = download_attachment(mail, name_old, uid_old)
-            new_res = download_attachment(mail, name_new, uid_new)
+            # STEP 1: Fast Search for Subjects
+            old_ids = check_subject_exists(mail, name_old)
+            new_ids = check_subject_exists(mail, name_new)
 
-            if old_res and new_res:
-                # LOG AS FOUND
-                print(
-                    f"✅ FOUND: {name_old} (Both reports downloaded and matched)")
-                new_successes.append(task)
+            print(f"{name_old} = {'SUBJECT FOUND' if old_ids else 'NOT FOUND'}")
+            print(f"{name_new} = {'SUBJECT FOUND' if new_ids else 'NOT FOUND'}")
+
+            # STEP 2: Only proceed to UID check and Download if BOTH subjects exist
+            if old_ids and new_ids:
+                print(f"   🔎 Both subjects located. Verifying UIDs and downloading...")
+
+                old_success = verify_uid_and_download(mail, old_ids, uid_old)
+                new_success = verify_uid_and_download(mail, new_ids, uid_new)
+
+                if old_success and new_success:
+                    print(f"✅ PAIR COMPLETED: Moving to success.json")
+                    new_successes.append(task)
+                else:
+                    print(
+                        f"❌ UID MISMATCH: (Old UID Found: {old_success}, New UID Found: {new_success})")
+                    still_pending.append(task)
             else:
-                # LOG AS NOT FOUND with specific details
-                status_old = "FOUND" if old_res else "NOT FOUND"
-                status_new = "FOUND" if new_res else "NOT FOUND"
-                print(
-                    f"❌ NOT FOUND: {name_old} (OLD: {status_old}, NEW: {status_new})")
                 still_pending.append(task)
 
         mail.logout()
@@ -130,7 +138,7 @@ def process_full_queue():
     with open(QUEUE_FILE, 'w') as f:
         json.dump(still_pending, f, indent=4)
 
-    print(f"[{timestamp}] --- Run Complete: {len(new_successes)} FOUND, {len(still_pending)} PENDING ---\n")
+    print(f"--- Run Complete ---\n")
 
 
 if __name__ == "__main__":
